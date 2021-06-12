@@ -23,7 +23,6 @@ const defaultConfig = {
         options: {
             useNewUrlParser: true,
             useUnifiedTopology: true,
-            useCreateIndex: true
         }
     },
 }
