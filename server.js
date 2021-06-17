@@ -15,7 +15,10 @@ const config = require('./config');
 mongoose.connect(config.mongo.uri, config.mongo.options);
 mongoose.connection.on('connected', () => {
     console.log('MongoDB connected');
-});
+}).on('error', (error) => {
+    console.log("\x1b[31m", 'Database connection error:', error);
+})
+
 
 //middlewares
 app.use(cors())
@@ -34,7 +37,7 @@ app.use(session({
     }),
     cookie: {
         maxAge: 365 * 24 * 60 * 60 * 1000 //one year - with rolling true
-    },
+    }
 }));
 app.use(passport.initialize());
 app.use(passport.session());

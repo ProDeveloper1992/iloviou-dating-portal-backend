@@ -1,23 +1,37 @@
 const mongoose = require('mongoose');
 const crypto = require('crypto');
+const config = require('../../config');
+
 const Schema = mongoose.Schema;
-const { validateEmail } = require('../../utils/common.validation');
+const { validateEmail, validatePhone, validateCoutryCode } = require('../../utils/common.validation');
 
 const UserSchema = new Schema({
     name: String,
+    avatar: String,
     email: {
         type: String,
+        trim: true,
         unique: true,
-        lowercase: true
+        lowercase: true,
+        required: true,
+    },
+    phone: {
+        type: Number
+    },
+    countryCode: {
+        type: String,
+        trim: true,
     },
     gender: String,
     interest: {
         type: String,
-        default: 'friendship'
+        default: 'friendship',
+        trim: true
     },
     sexualOrientation: {
         type: String,
-        default: 'straight'
+        default: 'straight',
+        trim: true
     },
     registration: {
         type: String,
@@ -27,8 +41,23 @@ const UserSchema = new Schema({
         type: Boolean,
         default: false
     },
-    hashedPassword: String,
-    salt: String,
+    otp: {
+        type: Number,
+    },
+    isVerified: {
+        type: Boolean,
+        default: false
+    },
+    social: {
+        facebook: {
+            id: String,
+        }
+    },
+    provider: {
+        type: String,
+        default: 'local'
+    },
+    hashedPassword: String
 }, {
     timestamps: true,
 })
@@ -37,7 +66,6 @@ const UserSchema = new Schema({
 if (!UserSchema.options.toObject) UserSchema.options.toObject = {};
 UserSchema.options.toObject.transform = function (doc, ret) {
     delete ret.hashedPassword;
-    delete ret.salt;
     return ret;
 };
 
@@ -45,7 +73,6 @@ UserSchema.options.toObject.transform = function (doc, ret) {
 //Virtual fields
 UserSchema.virtual('password').set(function (password) {
     this._password = password;
-    this.salt = this.makeSalt();
     this.hashedPassword = this.encryptPassword(password);
 }).get(function () {
     return this._password;
@@ -57,11 +84,20 @@ UserSchema.path('email').validate(function (value) {
     return validateEmail(value);
 }, 'Email is not valid');
 
-UserSchema.path('email').validate(async function (value) {
+UserSchema.path('email').validate(async function (email) {
     const User = this.collection;
-    const user = await User.findOne({ email: value, _id: { $ne: this._id } });
+    const user = await User.findOne({ email, _id: { $ne: this._id } });
     return !user;
-}, 'Duplicate email');
+}, 'Email is already existed in system, duplicate email!');
+
+//Validate phone
+UserSchema.path('phone').validate(function (phone) {
+    return validatePhone(phone);
+}, 'Phone number is not valid!');
+
+UserSchema.path('countryCode').validate(function (cntryCode) {
+    return validateCoutryCode(cntryCode);
+}, 'Coutry code is not valid!');
 
 // Validate empty password
 UserSchema.path('hashedPassword').validate(function (hashedPassword) {
@@ -94,13 +130,10 @@ UserSchema.methods = {
     verifyPassword: function (plainPassword) {
         return this.encryptPassword(plainPassword) === this.hashedPassword;
     },
-    makeSalt: function () {
-        return crypto.randomBytes(16).toString('base64');
-    },
     encryptPassword: function (password) {
-        if (!password || !this.salt) return '';
+        if (!password) return '';
 
-        var salt = Buffer.from(this.salt, 'base64');
+        var salt = Buffer.from(config.auth.salt, 'base64');
         return crypto.pbkdf2Sync(password, salt, 10000, 512, 'sha512').toString('base64');
     }
 }

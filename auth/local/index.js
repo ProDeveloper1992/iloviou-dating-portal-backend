@@ -3,7 +3,7 @@ const passport = require('passport');
 const router = express.Router();
 
 router.post('/', (req, res, next) => {
-    passport.authenticate('local', (error, user, info) => {
+    passport.authenticate('email-local', (error, user, info) => {
         if (error) {
             return res.status(403).json({
                 message: 'Unauthorized',
@@ -30,7 +30,9 @@ router.post('/', (req, res, next) => {
 
 router.get('/logout', (req, res) => {
     req.logout();
-    res.status(200).end();
+    res.status(200).send({
+        message: 'Success, User successfully logged out!'
+    });
 })
 
 module.exports = router;

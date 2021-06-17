@@ -25,6 +25,12 @@ const defaultConfig = {
             useUnifiedTopology: true,
         }
     },
+
+    // Providers
+    provider: {
+        local: 'local',
+        facebook: 'facebook'
+    }
 }
 
 module.exports = _.merge(defaultConfig, require('./' + process.env.NODE_ENV + '.js') || {});

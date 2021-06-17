@@ -3,15 +3,30 @@ const passport = require('passport');
 const router = express.Router();
 
 
-router.get('/', passport.authenticate("facebook"));
+router.post('/', (req, res, next) => {
+    passport.authenticate('facebook-token', function (error, user, info) {
+        if (error) {
+            return res.status(403).json({
+                message: error.message || 'Unauthorized',
+            })
+        }
+        if (info) {
+            return res.status(403).json({
+                message: info.message || 'Unauthorized',
+            })
+        }
 
+        req.login(user, (err) => {
+            if (err) {
+                return res.status(403).send(err);
+            }
 
-router.get('/callback', passport.authenticate('facebook'), (req, res) => {
-    console.log("facebook redirect url works")
-    return res.status(200).json({
-        message: 'Authorized successfully!',
-    })
-})
+            return res.status(200).json({
+                message: 'Authorized successfully!'
+            })
+        })
+    })(req, res, next);
+});
 
 
 module.exports = router;
