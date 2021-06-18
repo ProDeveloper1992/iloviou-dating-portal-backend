@@ -16,9 +16,22 @@ exports.register = async (req, res) => {
             await user.validate()
         } catch (error) {
             return res.status(422).json({
-                status: 422,
                 message: error.message,
             });
+        }
+
+        //check if user exists with given phone
+        if (body.phone && body.countryCode) {
+            const userWithDuplicatePhone = await User.findOne({
+                _id: { $ne: user._id },
+                phone: body.phone,
+                countryCode: body.countryCode,
+            });
+            if (userWithDuplicatePhone) {
+                return res.status(422).json({
+                    message: 'The given phone number is already existed in system, duplicate phone!'
+                })
+            }
         }
 
         user.registration = 'completed';
@@ -29,7 +42,7 @@ exports.register = async (req, res) => {
             message: 'Successfully registered!'
         })
     } catch (error) {
-        res.status(500).send(error);
+        res.status(500).send(error.message);
     }
 }
 
@@ -39,6 +52,6 @@ exports.me = (req, res) => {
         const user = req.user;
         res.status(200).send(user);
     } catch (error) {
-        res.status(500).send(error);
+        res.status(500).send(error.message);
     }
 }

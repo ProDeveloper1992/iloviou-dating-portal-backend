@@ -5,6 +5,11 @@ module.exports = {
         uri: process.env.MONGO_URI || 'mongodb://localhost/iloviou-dev',
     },
 
+    //auth
+    auth: {
+        salt: process.env.AUTH_SALT
+    },
+
     //social
     social: {
         facebook: {
@@ -15,7 +20,10 @@ module.exports = {
 
     //AWS connection options
     aws: {
-
+        accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+        region: process.env.AWS_REGION,
+        s3Bucket: process.env.AWS_S3_BUCKET
     },
 
     //Stripe options
