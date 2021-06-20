@@ -1,25 +1,30 @@
 const AWS = require('aws-sdk');
 const config = require('../../config');
 AWS.config.update({ region: config.aws.region });
+const twilio = require('twilio');
+const twilioAccountSid = process.env.TWILIO_ACCOUNT_SID; // Your Account SID from www.twilio.com/console
+const twilioAuthToken = process.env.TWILIO_AUTH_TOKEN; 
+const twilioRegisteredPhone = process.env.TWILIO_PHONE;
 
 class MessagingService {
     constructor() {
-        this.sns = new AWS.SNS({ region: config.aws.region });
-        this.setSmsAttributes({
-            attributes: {
-                DefaultSenderID: 'TM-ILOVIOU',
-                DefaultSMSType: 'Transactional'
-            }
-        })
+        this.client = new twilio(twilioAccountSid, twilioAuthToken);
+        // this.sns = new AWS.SNS({ region: config.aws.region });
+        // this.setSmsAttributes({
+        //     attributes: {
+        //         DefaultSenderID: 'TM-ILOVIOU',
+        //         DefaultSMSType: 'Transactional'
+        //     }
+        // })
     }
 
-    async setSmsAttributes(attr) {
-        try {
-            return await this.sns.setSMSAttributes(attr).promise();
-        } catch (error) {
-            throw error;
-        }
-    }
+    // async setSmsAttributes(attr) {
+    //     try {
+    //         return await this.sns.setSMSAttributes(attr).promise();
+    //     } catch (error) {
+    //         throw error;
+    //     }
+    // }
 
     generateOneTimePassword(otpLength = 6) {
         var digits = '0123456789';
@@ -33,7 +38,14 @@ class MessagingService {
 
     async sendMessage(params) {
         try {
-            return await this.sns.publish(params).promise();
+            return this.client.messages.create({
+                body: params.Message,
+                to: params.PhoneNumber,  // Text this number
+                from: twilioRegisteredPhone // From a valid Twilio number
+            })
+            .then((message) => message);
+            
+            // return await this.sns.publish(params).promise();
         } catch (error) {
             throw error;
         }
