@@ -1,5 +1,6 @@
 const express = require('express');
 const passport = require('passport');
+const { MESSAGES } = require('../../utils/common.messages');
 const router = express.Router();
 
 
@@ -7,12 +8,12 @@ router.post('/', (req, res, next) => {
     passport.authenticate('facebook-token', function (error, user, info) {
         if (error) {
             return res.status(403).json({
-                message: error.message || 'Unauthorized',
+                message: error.message || MESSAGES.UNAUTHORIZED,
             })
         }
         if (info) {
             return res.status(403).json({
-                message: info.message || 'Unauthorized',
+                message: info.message || MESSAGES.UNAUTHORIZED,
             })
         }
 
@@ -22,7 +23,7 @@ router.post('/', (req, res, next) => {
             }
 
             return res.status(200).json({
-                message: 'Authorized successfully!'
+                message: MESSAGES.AUTHORIZED_COMPLETED
             })
         })
     })(req, res, next);

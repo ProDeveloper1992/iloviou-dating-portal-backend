@@ -1,5 +1,6 @@
 const User = require('./user.model');
 const _ = require('lodash');
+const { MESSAGES } = require('../../utils/common.messages');
 
 //create new user
 exports.register = async (req, res) => {
@@ -29,7 +30,7 @@ exports.register = async (req, res) => {
             });
             if (userWithDuplicatePhone) {
                 return res.status(422).json({
-                    message: 'The given phone number is already existed in system, duplicate phone!'
+                    message: MESSAGES.DUPLICATE_PHONE
                 })
             }
         }
@@ -39,7 +40,7 @@ exports.register = async (req, res) => {
         await user.save();
 
         res.status(200).json({
-            message: 'Successfully registered!'
+            message: MESSAGES.REGISTRATION_COMPLETED
         })
     } catch (error) {
         res.status(500).send(error.message);
@@ -56,7 +57,7 @@ exports.forgotPassword = async (req, res) => {
         await user.save();
         req.logout();
         res.status(200).json({
-            message: 'Forgot password successfully done!'
+            message: MESSAGES.FORGOT_PASSWORD
         })
     } catch (error) {
         res.status(500).send(error.message);
