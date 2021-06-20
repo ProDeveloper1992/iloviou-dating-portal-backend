@@ -4,8 +4,6 @@ const passport = require('passport');
 const User = require('../../modules/user/user.model');
 const messagingService = require('../../services/messaging');
 
-
-
 router.post('/send-otp', async (req, res) => {
     try {
         let { phone, countryCode } = req.body;
@@ -18,11 +16,10 @@ router.post('/send-otp', async (req, res) => {
 
             let otpSendResponse = await messagingService.sendMessage({
                 Message: `${oneTimePassword} is your Iloviou verification code for connect using phone. Please DO NOT share this OTP with anyone to ensure account's security.`,
-                MessageStructure: "string",
                 PhoneNumber: `${user.countryCode} ${user.phone}`,
             })
 
-            if (otpSendResponse && otpSendResponse.MessageId) {
+            if (otpSendResponse && otpSendResponse.sid) {
                 await user.save();
                 return res.status(200).send({
                     message: `Success, Verification code has been sent to your mobile number ${user.countryCode} ${user.phone} successfully, Please verify it.`,
@@ -94,7 +91,6 @@ router.post('/verify-otp', async (req, res, next) => {
         message: 'Failure, The phone verification was not found with the parameters given!'
     })
 });
-
 
 
 module.exports = router;

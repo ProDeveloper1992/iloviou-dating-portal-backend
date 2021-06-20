@@ -46,6 +46,23 @@ exports.register = async (req, res) => {
     }
 }
 
+exports.forgotPassword = async (req, res) => {
+    try {
+        let { body } = req;
+        var user = await User.findOne({ _id: req.user.id });
+        user = _.merge(user, body);
+        
+        //saving change
+        await user.save();
+        req.logout();
+        res.status(200).json({
+            message: 'Forgot password successfully done!'
+        })
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+}
+
 //fetch user profile
 exports.me = (req, res) => {
     try {

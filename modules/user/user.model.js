@@ -123,8 +123,6 @@ UserSchema.statics = {
 
 }
 
-
-
 /** Methods - this refers to document (user's record) **/
 UserSchema.methods = {
     verifyPassword: function (plainPassword) {
