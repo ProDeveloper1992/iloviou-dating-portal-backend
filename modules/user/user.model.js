@@ -4,6 +4,7 @@ const config = require('../../config');
 
 const Schema = mongoose.Schema;
 const { validateEmail, validatePhone, validateCoutryCode } = require('../../utils/common.validation');
+const { MESSAGES } = require('../../utils/common.messages');
 
 const UserSchema = new Schema({
     name: String,
@@ -82,27 +83,27 @@ UserSchema.virtual('password').set(function (password) {
 /**  Validations **/
 UserSchema.path('email').validate(function (value) {
     return validateEmail(value);
-}, 'Email is not valid');
+}, MESSAGES.EMAIL_NOT_VALID);
 
 UserSchema.path('email').validate(async function (email) {
     const User = this.collection;
     const user = await User.findOne({ email, _id: { $ne: this._id } });
     return !user;
-}, 'Email is already existed in system, duplicate email!');
+}, MESSAGES.DUPLICATE_EMAIL);
 
 //Validate phone
 UserSchema.path('phone').validate(function (phone) {
     return validatePhone(phone);
-}, 'Phone number is not valid!');
+}, MESSAGES.PHONE_NOT_VALID);
 
 UserSchema.path('countryCode').validate(function (cntryCode) {
     return validateCoutryCode(cntryCode);
-}, 'Coutry code is not valid!');
+}, MESSAGES.COUNTRY_CODE_NOT_VALID);
 
 // Validate empty password
 UserSchema.path('hashedPassword').validate(function (hashedPassword) {
     return hashedPassword.length;
-}, 'Password cannot be blank');
+}, MESSAGES.PASSWORD_BLANK);
 
 
 

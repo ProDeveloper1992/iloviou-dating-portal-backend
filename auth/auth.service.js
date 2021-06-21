@@ -1,3 +1,4 @@
+const { MESSAGES } = require("../utils/common.messages");
 
 const isAuthenticated = (req, res, next) => {
     if (req.isAuthenticated()) {
@@ -5,7 +6,7 @@ const isAuthenticated = (req, res, next) => {
     } else {
         return res.status(401).json({
             code: 401,
-            message: 'Unauthorized',
+            message: MESSAGES.UNAUTHORIZED,
         });
     }
 }

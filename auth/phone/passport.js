@@ -1,5 +1,6 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
+const { MESSAGES } = require('../../utils/common.messages')
 
 exports.setup = () => {
     passport.use('phone-local', new LocalStrategy({
@@ -11,6 +12,6 @@ exports.setup = () => {
             return callback(null, req.body.phoneUser);
         }
 
-        return callback(null, false, { message: 'User not found!' });
+        return callback(null, false, { message: MESSAGES.USER_NOT_FOUND });
     }));
 }

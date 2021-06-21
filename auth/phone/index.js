@@ -3,6 +3,7 @@ const router = express.Router();
 const passport = require('passport');
 const User = require('../../modules/user/user.model');
 const messagingService = require('../../services/messaging');
+const { MESSAGES } = require('../../utils/common.messages');
 
 router.post('/send-otp', async (req, res) => {
     try {
@@ -15,14 +16,14 @@ router.post('/send-otp', async (req, res) => {
             user.isVerified = false;
 
             let otpSendResponse = await messagingService.sendMessage({
-                Message: `${oneTimePassword} is your Iloviou verification code for connect using phone. Please DO NOT share this OTP with anyone to ensure account's security.`,
+                Message: MESSAGES.VERIFICATION_CODE_MESSAGE.replace('{OTP}',  oneTimePassword),
                 PhoneNumber: `${user.countryCode} ${user.phone}`,
             })
 
             if (otpSendResponse && otpSendResponse.sid) {
                 await user.save();
                 return res.status(200).send({
-                    message: `Success, Verification code has been sent to your mobile number ${user.countryCode} ${user.phone} successfully, Please verify it.`,
+                    message: MESSAGES.VERIFICATION_CODE_SENT.replace('{PHONE_NUMBER}', `${user.countryCode} ${user.phone}`),
                     data: {
                         countryCode: user.countryCode,
                         phone: user.phone
@@ -31,12 +32,12 @@ router.post('/send-otp', async (req, res) => {
             }
 
             return res.status(403).send({
-                message: "Failure, An error occurring creating phone verification, Please try again later!"
+                message: MESSAGES.FAIL_PHONE_VERIFICATION
             })
         }
 
         return res.status(404).send({
-            message: 'Failure, User not registered with the given phone number in the system!'
+            message: MESSAGES.FAIL_USER_NOT_REGISTERED
         })
     } catch (error) {
         res.status(500).send(error.message);
@@ -61,12 +62,12 @@ router.post('/verify-otp', async (req, res, next) => {
             passport.authenticate('phone-local', (error, user, info) => {
                 if (error) {
                     return res.status(403).json({
-                        message: 'Unauthorized',
+                        message: MESSAGES.UNAUTHORIZED,
                     })
                 }
                 if (info) {
                     return res.status(403).json({
-                        message: info.message || 'Unauthorized',
+                        message: info.message || MESSAGES.UNAUTHORIZED,
                     })
                 }
 
@@ -76,19 +77,19 @@ router.post('/verify-otp', async (req, res, next) => {
                     }
 
                     return res.status(200).json({
-                        message: 'Authorized successfully!',
+                        message: MESSAGES.AUTHORIZED_COMPLETED,
                     })
                 })
             })(req, res, next)
         } else {
             return res.status(401).send({
-                message: 'Failure, The phone verification code was incorrect',
+                message: MESSAGES.FAIL_VERIFICATION_CODE,
             })
         }
     }
 
     return res.status(404).send({
-        message: 'Failure, The phone verification was not found with the parameters given!'
+        message: MESSAGES.FAIL_PHONE_PARAMETERS
     })
 });
 
