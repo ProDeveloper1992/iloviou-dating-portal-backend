@@ -26,6 +26,12 @@ module.exports = {
         s3Bucket: process.env.AWS_S3_BUCKET
     },
 
+    twilio: {
+        accountSid: process.env.TWILIO_ACCOUNT_SID,
+        authToken: process.env.TWILIO_AUTH_TOKEN,
+        fromPhone: process.env.TWILIO_PHONE
+    },
+
     //Stripe options
     stripeOptions: {
 
