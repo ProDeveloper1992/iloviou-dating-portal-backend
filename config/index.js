@@ -11,7 +11,7 @@ const defaultConfig = {
     root: path.normalize(__dirname + '../..'),
 
     //Server port
-    port: process.env.PORT || 9000,
+    port: process.env.PORT || 80,
 
     //Secrets for security purpose, in various features
     secrets: {
