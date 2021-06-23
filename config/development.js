@@ -15,6 +15,11 @@ module.exports = {
         facebook: {
             appId: process.env.FACEBOOK_APP_ID,
             appSecret: process.env.FACEBOOK_APP_SECRET
+        },
+        google: {
+            apiKey: process.env.GOOGLE_API_KEY,
+            clientId: process.env.GOOGLE_CLIENT_ID,
+            secret: process.env.GOOGLE_CLIENT_SECRET
         }
     },
 

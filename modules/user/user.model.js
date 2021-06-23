@@ -52,6 +52,9 @@ const UserSchema = new Schema({
     social: {
         facebook: {
             id: String,
+        },
+        google: {
+            id: String,
         }
     },
     provider: {
