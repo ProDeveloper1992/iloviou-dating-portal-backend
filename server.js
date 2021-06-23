@@ -56,6 +56,7 @@ const server = require('http').createServer(app); //separate server instance for
 createSocketServer(server);
 
 //Serve routes
+app.get('/', (req, res) => res.send('Connected to iloveou app backend...'))
 require('./routes')(app);
 
 //Start server
