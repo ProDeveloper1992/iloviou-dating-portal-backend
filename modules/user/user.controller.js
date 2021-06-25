@@ -1,6 +1,7 @@
 const User = require('./user.model');
 const _ = require('lodash');
 const { MESSAGES } = require('../../utils/common.messages');
+const { sendMail } = require('../../services/mail');
 
 //create new user
 exports.register = async (req, res) => {
@@ -72,4 +73,17 @@ exports.me = (req, res) => {
     } catch (error) {
         res.status(500).send(error.message);
     }
+}
+
+exports.sendMail = (req, res) => {
+    sendMail({
+        to: "mihirpatel2015@gmail.com",
+        subject: "test",
+        text: "hello word",
+        html: "<h1>Word test</h1>"
+    }).then(resData => {
+        res.status(200).send(resData);
+    }, err => {
+        res.status(400).send(err)
+    })
 }

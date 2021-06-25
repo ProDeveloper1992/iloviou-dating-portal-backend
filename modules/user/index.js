@@ -12,4 +12,6 @@ router.post('/register', controller.register);
 //fetch profile
 router.get('/profile', isAuthenticated, controller.me);
 
+router.post('/sendMail', controller.sendMail);
+
 module.exports = router;
