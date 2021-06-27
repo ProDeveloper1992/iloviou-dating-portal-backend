@@ -1,6 +1,6 @@
 // Development specific configuration
 module.exports = {
-    // MongoDB connection options
+    // MongoDB connection url
     mongo: {
         uri: process.env.MONGO_URI || 'mongodb://localhost/iloviou-dev',
     },
@@ -38,7 +38,16 @@ module.exports = {
     },
 
     sendGrid: {
-        apiKey: process.env.SENDGRID_API_KEY
+        apiKey: process.env.SENDGRID_API_KEY,
+        mailFrom: "info@iloviou.com",
+        templatesIds: {
+            forgotPassword: "d-392920e6e8b745a393124fd7a3eb9336" //forgot password
+        }
+    },
+
+    //jwt 
+    jwt: {
+        expiresIn: 24 * 60 * 60 //24 hours
     },
 
     //Stripe options

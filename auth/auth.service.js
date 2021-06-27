@@ -1,3 +1,5 @@
+const jwt = require('jsonwebtoken');
+const config = require('../config');
 const { MESSAGES } = require("../utils/common.messages");
 
 const isAuthenticated = (req, res, next) => {
@@ -11,6 +13,16 @@ const isAuthenticated = (req, res, next) => {
     }
 }
 
+const signToken = payload => {
+    return jwt.sign(payload, config.secrets.session, { expiresIn: config.jwt.expiresIn });
+};
+
+const verifyToken = token => {
+    return jwt.verify(token, config.secrets.session);
+}
+
 module.exports = {
-    isAuthenticated
+    isAuthenticated,
+    signToken,
+    verifyToken
 }

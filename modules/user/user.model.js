@@ -57,6 +57,8 @@ const UserSchema = new Schema({
             id: String,
         }
     },
+    // Apears when user in reset-password process
+    resetToken: String,
     provider: {
         type: String,
         default: 'local'
