@@ -10,6 +10,9 @@ const passport = require('passport');
 const MongoStore = require('connect-mongo');
 const app = express();
 const config = require('./config');
+const path = require('path');
+const io = require('socket.io');
+const passportSocketIo = require("passport.socketio");
 
 //Database connection
 mongoose.connect(config.mongo.uri, config.mongo.options);
@@ -19,14 +22,15 @@ mongoose.connection.on('connected', () => {
     console.log("\x1b[31m", 'Database connection error:', error);
 })
 
-
 //middlewares
 app.use(cors())
+app.use(express.static('node_modules'))
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(config.secrets.session));
 app.use(morgan('dev'));
-app.use(session({
+
+const sessionStore = session({
     secret: config.secrets.session,
     resave: true,
     saveUninitialized: true,
@@ -38,7 +42,8 @@ app.use(session({
     cookie: {
         maxAge: 365 * 24 * 60 * 60 * 1000 //one year - with rolling true
     }
-}));
+})
+app.use(sessionStore);
 app.use(passport.initialize());
 app.use(passport.session());
 app.use((req, res, next) => {
@@ -52,8 +57,28 @@ app.use((req, res, next) => {
     else next();
 });
 
+app.get("/socket", (req, res) => {
+    res.sendFile(path.join(__dirname, '/index.html'))
+})
+
 const server = require('http').createServer(app); //separate server instance for socket service
-createSocketServer(server);
+const ioServer = io().listen(server, {
+    path: '/socket'
+}).use(function(socket, next) {
+    sessionStore(socket.request, socket.request.res, next);
+});
+// ioServer.use(passportSocketIo.authorize({
+//     cookieParser: cookieParser,
+//     key: 'connect.sid',
+//     secret: config.secrets.session,
+//     store: sessionStore,
+// }))
+
+ioServer.on('connection', (socket) => {
+    console.log(socket.request.session)
+    console.log('a user connected');
+});
+// createSocketServer(ioServer);
 
 //Serve routes
 app.get('/', (req, res) => res.send('Connected to iloveou app backend...'))

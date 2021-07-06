@@ -34,6 +34,7 @@
     "passport-facebook-token": "^4.0.0",
     "passport-google-token": "^0.1.2",
     "passport-local": "^1.0.0",
+    "passport.socketio": "^3.7.0",
     "socket.io": "^4.1.2",
     "twilio": "^3.64.0"
   },

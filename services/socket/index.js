@@ -1,9 +1,17 @@
-const io = require('socket.io');
+const cookieParser = require('cookie-parser');
+const sessionStore = require('../../server');
+const config = require('../../config')
 
-const createSocketServer = (server) => {
-    const ioServer = io().listen(server, {
-        path: '/socket'
+const createSocketServer = (ioServer) => {
+
+    ioServer.on('connection', (socket) => {
+        // console.log(socket.request.user)
+        console.log('a user connected');
     });
+
+    let namespace = ioServer.of('/');
+    namespace.on('connection', (socket) => {
+    })
 
     //use this ioServer instance in other services
 }

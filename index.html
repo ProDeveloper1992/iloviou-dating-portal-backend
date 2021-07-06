@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Socket.IO</title>
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+
+<body>
+    <button>Send</button>
+    <script>
+        var socket = io('http://localhost:5000', {
+            path: '/socket'
+        });
+        socket.on('connect', function(){
+            socket.on('event', function(data){});
+            socket.on('disconnect', function(){});
+        });
+
+    </script>
+</body>
+
+</html>
