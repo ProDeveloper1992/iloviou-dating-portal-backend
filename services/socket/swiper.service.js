@@ -1,13 +1,9 @@
-
-
 class SwiperService {
     namespace = null;
-    namespaceUsers = {};
     constructor(ioServer) {
         this.namespace = ioServer.of('/swiper');
         this.registerNameSpace();
     }
-
 
     registerNameSpace() {
         this.namespace.on('connection', (socket) => {

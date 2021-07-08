@@ -3,11 +3,11 @@ const router = express.Router();
 const controller = require('./user.controller');
 const { isAuthenticated } = require('../../auth/auth.service');
 
+//fetch user
+router.get('/', isAuthenticated, controller.me);
+
 //register user
 router.post('/register', controller.register);
-
-//fetch profile
-router.get('/profile', isAuthenticated, controller.me);
 
 //forgot user password
 router.get('/request-reset-password', controller.requestResetPassword);

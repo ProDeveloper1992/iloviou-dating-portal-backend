@@ -62,12 +62,9 @@ app.use((req, res, next) => {
     else next();
 });
 
-
-
 app.get("/socket", (req, res) => {
     res.sendFile(path.join(__dirname, '/index.html'))
 })
-
 
 const server = http.Server(app); //separate server instance for socket service
 const ioServer = io().listen(server, {
@@ -80,7 +77,8 @@ const passportSocketIoMiddleware = passportSocketIo.authorize({
     secret: config.secrets.session,
     store: sessionStore
 })
-ioServer.use(passportSocketIoMiddleware);
+
+// ioServer.use(passportSocketIoMiddleware);
 ioServer.of('/swiper').use(passportSocketIoMiddleware); //serve socket request user in namespace
 createSocketServices(ioServer);
 

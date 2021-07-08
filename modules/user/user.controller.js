@@ -36,8 +36,6 @@ exports.register = async (req, res) => {
     }
 }
 
-
-
 //fetch user profile
 exports.me = (req, res) => {
     try {

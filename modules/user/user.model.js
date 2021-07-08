@@ -24,6 +24,7 @@ const UserSchema = new Schema({
         trim: true,
     },
     gender: String,
+    birthday: Date,
     interest: {
         type: String,
         default: 'friendship',
