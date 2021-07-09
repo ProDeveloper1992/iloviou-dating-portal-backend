@@ -1,11 +1,7 @@
-const io = require('socket.io');
+let SwiperService = require('./swiper.service');
 
-const createSocketServer = (server) => {
-    const ioServer = io().listen(server, {
-        path: '/socket'
-    });
-
-    //use this ioServer instance in other services
+const createSocketServices = (ioServer) => {
+    new SwiperService(ioServer);
 }
 
-module.exports = createSocketServer;
+module.exports = createSocketServices;

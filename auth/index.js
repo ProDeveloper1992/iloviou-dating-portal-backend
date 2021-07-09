@@ -4,12 +4,14 @@ const router = express.Router();
 const User = require('../modules/user/user.model');
 const localAuth = require('./local');
 const facebookAuth = require('./facebook');
-const phoneAuth = require('./phone');
+const googleAuth = require('./google');
+// const phoneAuth = require('./phone');
 
 //Passport Configuration
 require('./local/passport').setup(User);
 require('./facebook/passport').setup(User);
-require('./phone/passport').setup();
+require('./google/passport').setup(User);
+// require('./phone/passport').setup();
 
 //Passport User Serialization
 passport.serializeUser((user, callback) => {
@@ -26,7 +28,8 @@ passport.deserializeUser((id, callback) => {
 //Auth Routes
 router.use('/', localAuth);
 router.use('/facebook', facebookAuth);
-router.use('/phone', phoneAuth);
+router.use('/google', googleAuth);
+// router.use('/phone', phoneAuth);
 
 
 module.exports = router;

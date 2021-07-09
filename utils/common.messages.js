@@ -18,5 +18,10 @@ exports.MESSAGES = {
     VERIFICATION_CODE_MESSAGE: '{OTP} is your Iloviou verification code for connect using phone. Please DO NOT share this OTP with anyone to ensure account\'s security.',
     VERIFICATION_CODE_SENT: 'Success, Verification code has been sent to your mobile number {PHONE_NUMBER} successfully, Please verify it.',
     FAIL_VERIFICATION_CODE: 'Failure, The phone verification code was incorrect',
-    FAIL_PHONE_PARAMETERS: 'Failure, The phone verification was not found with the parameters given!'
+    FAIL_PHONE_PARAMETERS: 'Failure, The phone verification was not found with the parameters given!',
+    GOOGLE_REGISTERED: 'User is already registered via google sign on!',
+    FACEBOOK_REGISTERED: "User is already registered via facebook sign on!",
+    INCORRECT_TOKEN: "Incorrect token!",
+    RESET_PASSWORD_TOKEN_EXPIRED: "Reset password link expired, try again with new link!",
+    RESET_NEW_PASSWORD_SUCCESS: "Reset new password successfully!"
 }

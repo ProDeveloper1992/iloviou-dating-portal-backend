@@ -24,6 +24,7 @@ const UserSchema = new Schema({
         trim: true,
     },
     gender: String,
+    birthday: Date,
     interest: {
         type: String,
         default: 'friendship',
@@ -52,8 +53,13 @@ const UserSchema = new Schema({
     social: {
         facebook: {
             id: String,
+        },
+        google: {
+            id: String,
         }
     },
+    // Apears when user in reset-password process
+    resetToken: String,
     provider: {
         type: String,
         default: 'local'

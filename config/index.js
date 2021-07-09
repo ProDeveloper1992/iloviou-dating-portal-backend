@@ -29,7 +29,8 @@ const defaultConfig = {
     // Providers
     provider: {
         local: 'local',
-        facebook: 'facebook'
+        facebook: 'facebook',
+        google: 'google'
     }
 }
 
