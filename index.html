@@ -15,7 +15,10 @@
             login
         </button>
     </form>
+    <br/><br/>
     <button id="send">Send</button>
+    <br/><br/>
+    <button id="getSwiperData">GET Swiper Data</button>
     <script>
         var socket = io('http://localhost:5000/swiper', {
             path: '/socket'
@@ -23,9 +26,18 @@
 
 
         socket.on('connect', function () {
-            socket.on('event', function (data) { });
+            socket.on('event', function (data) {
+                console.log(data)
+            });
             socket.on('disconnect', function () { });
         });
+        
+        document.getElementById('getSwiperData').addEventListener('click', () => {
+            socket.emit('sendReqForNewSwiperList');
+        })
+        socket.on('getResForNewSwiperList', (data) => {
+            console.log(data)
+        })
 
         let btnSend = document.getElementById('send');
         btnSend.addEventListener('click', () => {
