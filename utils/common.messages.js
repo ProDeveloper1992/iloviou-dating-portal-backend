@@ -23,5 +23,6 @@ exports.MESSAGES = {
     FACEBOOK_REGISTERED: "User is already registered via facebook sign on!",
     INCORRECT_TOKEN: "Incorrect token!",
     RESET_PASSWORD_TOKEN_EXPIRED: "Reset password link expired, try again with new link!",
-    RESET_NEW_PASSWORD_SUCCESS: "Reset new password successfully!"
+    RESET_NEW_PASSWORD_SUCCESS: "Reset new password successfully!",
+    INVALID_FILE_TYPE: "File type is not valid"
 }
