@@ -21,7 +21,7 @@
     <br /><br />
     <button id="getSwiperData">GET Swiper Data</button>
     <script>
-        var socket = io('http://localhost:5000/swiper', {
+        var socket = io(`${window.location.host}/swiper`, {
             path: '/socket'
         });
 
