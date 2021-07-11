@@ -11,8 +11,8 @@ module.exports = {
         //international coutry code
         return /^\+(\d{1}\-)?(\d{1,3})$/.test(countryCode);
     },
-    validateFile: function (fileType) {
-        const fileAllow = ['jpeg', 'jpg', 'png'];
-        return fileAllow.includes(fileType)
+    validateFileType: function (fileType) {
+        const allowedFileTypes = ['jpeg', 'jpg', 'png'];
+        return allowedFileTypes.includes(fileType)
     }
 }

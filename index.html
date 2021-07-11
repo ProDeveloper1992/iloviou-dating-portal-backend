@@ -15,17 +15,47 @@
             login
         </button>
     </form>
+    <br /><br />
     <button id="send">Send</button>
+    <button id="callxhr">Call Xhr</button>
+    <br /><br />
+    <button id="getSwiperData">GET Swiper Data</button>
     <script>
-        var socket = io('http://localhost:5000/swiper', {
+        var socket = io(`${window.location.host}/swiper`, {
             path: '/socket'
         });
 
+        function reqListener(res) {
+            console.log(this.responseText);
+            console.log("res=>", res)
+        }
+
+
+        document.getElementById('callxhr').addEventListener('click', () => {
+            var oReq = new XMLHttpRequest();
+            oReq.addEventListener("load", reqListener);
+            oReq.open("GET", "http://localhost:5000/api/user");
+            oReq.setRequestHeader('withCredentials', true)
+            oReq.setRequestHeader('credentials', 'include')
+            oReq.send();
+        })
+
+
+
 
         socket.on('connect', function () {
-            socket.on('event', function (data) { });
+            socket.on('event', function (data) {
+                console.log(data)
+            });
             socket.on('disconnect', function () { });
         });
+
+        document.getElementById('getSwiperData').addEventListener('click', () => {
+            socket.emit('sendReqForNewSwiperList');
+        })
+        socket.on('getResForNewSwiperList', (data) => {
+            console.log(data)
+        })
 
         let btnSend = document.getElementById('send');
         btnSend.addEventListener('click', () => {

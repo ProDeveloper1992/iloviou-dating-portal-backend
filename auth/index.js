@@ -15,11 +15,17 @@ require('./google/passport').setup(User);
 
 //Passport User Serialization
 passport.serializeUser((user, callback) => {
+    console.log('-------------------------------');
+    console.log('serializeUser : ', user);
+    console.log('-------------------------------');
     callback(null, user.id);
 });
 
 //Passport User Deserialization
 passport.deserializeUser((id, callback) => {
+    console.log('-------------------------------');
+    console.log('deserializeUser : ', id);
+    console.log('-------------------------------');
     User.findById(id, { hashedPassword: 0 }, (err, user) => {
         callback(err, user)
     })

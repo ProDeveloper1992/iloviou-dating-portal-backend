@@ -3,6 +3,10 @@ const config = require('../config');
 const { MESSAGES } = require("../utils/common.messages");
 
 const isAuthenticated = (req, res, next) => {
+    console.log('req.cookies : ', req.cookies);
+    console.log('req.isAuthenticated : ', req.isAuthenticated());
+    console.log('req.session', req.session);
+    console.log('req.user : ', req.user);
     if (req.isAuthenticated()) {
         return next();
     } else {
