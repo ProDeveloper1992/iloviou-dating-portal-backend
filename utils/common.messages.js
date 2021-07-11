@@ -25,6 +25,6 @@ exports.MESSAGES = {
     RESET_PASSWORD_TOKEN_EXPIRED: "Reset password link expired, try again with new link!",
     RESET_NEW_PASSWORD_SUCCESS: "Reset new password successfully!",
     INVALID_FILE_TYPE: "File type is not valid",
-    SWIPER_PROFILE_NOT_FOUND_FOR_USER: "Swiper profile not found for the user!",
-    SWIPER_PROFILE_UPDATED_SUCCESSFULLY: "Swiper profile updated successfully"
+    PROFILE_NOT_FOUND_FOR_USER: "Profile not found for the user!",
+    PROFILE_UPDATED_SUCCESSFULLY: "Profile updated successfully"
 }

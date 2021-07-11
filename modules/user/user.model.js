@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const crypto = require('crypto');
 const config = require('../../config');
-const SwiperProfile = require('../swiper/swiper-profile.model');
+const Profile = require('../profile/profile.model');
 
 const Schema = mongoose.Schema;
 const { validateEmail, validatePhone, validateCoutryCode } = require('../../utils/common.validation');
@@ -66,9 +66,9 @@ const UserSchema = new Schema({
         default: 'local'
     },
     hashedPassword: String,
-    swiperProfileId: {
+    profileId: {
         type: Schema.Types.ObjectId,
-        ref: 'SwiperProfile'
+        ref: 'Profile'
     },
 }, {
     timestamps: true,
@@ -146,12 +146,12 @@ UserSchema.methods = {
         var salt = Buffer.from(config.auth.salt, 'base64');
         return crypto.pbkdf2Sync(password, salt, 10000, 512, 'sha512').toString('base64');
     },
-    createSwiperProfile: async function () {
+    createProfile: async function () {
         try {
             let user = this;
             let updateData = { userId: user._id }
 
-            let swiperProfile = await SwiperProfile.findOneAndUpdate(
+            let profile = await Profile.findOneAndUpdate(
                 { ...updateData },
                 { $set: updateData },
                 {
@@ -161,8 +161,8 @@ UserSchema.methods = {
                 }
             );
 
-            if (swiperProfile) {
-                user.swiperProfileId = swiperProfile._id;
+            if (profile) {
+                user.profileId = profile._id;
             }
 
             //saving changes and returned

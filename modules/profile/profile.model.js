@@ -1,8 +1,6 @@
 const mongoose = require('mongoose');
-const config = require('../../config');
 
 const Schema = mongoose.Schema;
-const { MESSAGES } = require('../../utils/common.messages');
 
 const ProfileSchema = new Schema({
     userId: {
@@ -28,4 +26,4 @@ const ProfileSchema = new Schema({
 })
 
 
-module.exports = mongoose.model('SwiperProfile', ProfileSchema);
+module.exports = mongoose.model('Profile', ProfileSchema);

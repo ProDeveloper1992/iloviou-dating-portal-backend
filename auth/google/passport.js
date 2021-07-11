@@ -48,7 +48,7 @@ exports.setup = (User) => {
         //create swiper profile for the user
         if (!user.swiperProfileId) {
             try {
-                await user.createSwiperProfile();
+                await user.createProfile();
             } catch (error) {
                 return callback(error);
             }

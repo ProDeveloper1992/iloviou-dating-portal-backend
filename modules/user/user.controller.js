@@ -26,7 +26,7 @@ exports.register = async (req, res) => {
 
         //create swiper profile for the user
         if (!user.swiperProfileId) {
-            await user.createSwiperProfile();
+            await user.createProfile();
         }
 
         //saving change

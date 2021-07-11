@@ -1,4 +1,4 @@
-const { getSwiperUsers } = require('../../../modules/swiper/swiper.controller');
+const { getUsersProfile } = require('../../../modules/profile/profile.controller');
 
 class SwiperService {
     constructor(ioServer) {
@@ -20,7 +20,7 @@ class SwiperService {
         })
 
         socket.on('sendReqForNewSwiperList', async () => {
-            const users = await getSwiperUsers();
+            const users = await getUsersProfile();
             socket.emit('getResForNewSwiperList', users);
         })
     }
