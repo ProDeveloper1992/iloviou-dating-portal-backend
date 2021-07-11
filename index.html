@@ -14,6 +14,9 @@
         <button type="button" id="btnLogin" name="submit">
             login
         </button>
+        <button type="button" id="btnLogout" name="submit">
+            logout
+        </button>
     </form>
     <br /><br />
     <button id="send">Send</button>
@@ -37,10 +40,6 @@
                 email: document.getElementById('email').value,
                 password: document.getElementById('password').value,
             }
-
-            // var data = new FormData();
-            // data.append('email', dataObj.email);
-            // data.append('password', dataObj.password);
             function onSuccess() {
                 alert("logged in successfully...")
             }
@@ -50,6 +49,20 @@
             xhr.open('POST', `${host}/api/authentication`, true);
             xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
             xhr.send(`email=${dataObj.email}&password=${dataObj.password}`);
+        })
+
+
+        document.getElementById('btnLogout').addEventListener('click', () => {
+            function onSuccess() {
+                alert("logged out successfully...")
+            }
+
+            var oReq = new XMLHttpRequest();
+            oReq.addEventListener("load", onSuccess);
+            oReq.open("GET", `${host}/api/authentication/logout`);
+            oReq.setRequestHeader('withCredentials', true)
+            oReq.setRequestHeader('credentials', 'include')
+            oReq.send();
         })
 
         document.getElementById('callxhr').addEventListener('click', () => {
