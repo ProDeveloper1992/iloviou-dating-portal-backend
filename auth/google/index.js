@@ -23,7 +23,8 @@ router.post('/', (req, res, next) => {
             }
 
             return res.status(200).json({
-                message: MESSAGES.AUTHORIZED_COMPLETED
+                message: MESSAGES.AUTHORIZED_COMPLETED,
+                data: user
             })
         })
     })(req, res, next);
