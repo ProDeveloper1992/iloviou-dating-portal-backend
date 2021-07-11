@@ -24,6 +24,11 @@ exports.register = async (req, res) => {
             });
         }
 
+        //create swiper profile for the user
+        if (!user.swiperProfileId) {
+            await user.createSwiperProfile();
+        }
+
         //saving change
         user.registration = 'completed';
         await user.save();

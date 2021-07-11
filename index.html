@@ -74,9 +74,6 @@
             oReq.send();
         })
 
-
-
-
         socket.on('connect', function () {
             socket.on('event', function (data) {
                 console.log(data)
@@ -96,7 +93,6 @@
             console.log("send clicked")
             socket.emit('send')
         })
-
     </script>
 </body>
 

@@ -12,17 +12,20 @@ const ProfileSchema = new Schema({
     },
     bust: String,
     hip: String,
-    heigth: Number,
-    heigthType: String,
+    height: Number,
+    heightType: String,
     weight: Number,
     weightType: String,
     relationshipStatus: String,
     languages: [String],
     interests: [String],
     lookingFor: [String],
-    aboutYou: String,
+    about: String,
     images: [String],
     currentLocation: String
 }, {
     timestamps: true,
 })
+
+
+module.exports = mongoose.model('SwiperProfile', ProfileSchema);

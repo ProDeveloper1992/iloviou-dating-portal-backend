@@ -1,4 +1,4 @@
-let SwiperService = require('./swiper/swiper.service');
+const SwiperService = require('./swiper/swiper.service');
 
 const createSocketServices = (ioServer) => {
     new SwiperService(ioServer);

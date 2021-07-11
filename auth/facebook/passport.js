@@ -48,10 +48,23 @@ exports.setup = (User) => {
             return callback(error);
         }
 
+        //create swiper profile for the user
+        if (!user.swiperProfileId) {
+            try {
+                await user.createSwiperProfile();
+            } catch (error) {
+                return callback(error);
+            }
+        }
+
         //saving user
         user.save(function (error, result) {
             if (error) {
                 return callback(error);
+            }
+
+            if (result.hashedPassword) {
+                delete result.hashedPassword;
             }
 
             return callback(null, result);

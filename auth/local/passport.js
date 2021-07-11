@@ -19,6 +19,10 @@ exports.setup = (User) => {
             if (!user.verifyPassword(password)) {
                 return callback(null, false, { message: MESSAGES.PASSWORD_NOT_CORRECT });
             }
+
+            if (user.hashedPassword) {
+                delete user.hashedPassword;
+            }
             //return user
             return callback(null, user);
         })
