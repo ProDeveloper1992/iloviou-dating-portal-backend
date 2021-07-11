@@ -7,11 +7,11 @@
 </head>
 
 <body>
-    <form action="http://localhost:5000/api/authentication" method="post">
-        <input type="email" name="email" value="ravivyas@yopmail.com">
-        <input type="password" name="password" value="123">
+    <form>
+        <input id="email" type="email" name="email" value="ravivyas@yopmail.com">
+        <input id="password" type="password" name="password" value="123">
 
-        <button type="submit" name="submit">
+        <button type="button" id="btnLogin" name="submit">
             login
         </button>
     </form>
@@ -22,7 +22,7 @@
     <button id="getSwiperData">GET Swiper Data</button>
     <script>
 
-        var host = window.location.host
+        var host = window.location.origin
         var socket = io(`${host}/swiper`, {
             path: '/socket'
         });
@@ -32,6 +32,25 @@
             console.log("res=>", res)
         }
 
+        document.getElementById('btnLogin').addEventListener('click', () => {
+            let dataObj = {
+                email: document.getElementById('email').value,
+                password: document.getElementById('password').value,
+            }
+
+            // var data = new FormData();
+            // data.append('email', dataObj.email);
+            // data.append('password', dataObj.password);
+            function onSuccess() {
+                alert("logged in successfully...")
+            }
+
+            var xhr = new XMLHttpRequest();
+            xhr.addEventListener("load", onSuccess);
+            xhr.open('POST', `${host}/api/authentication`, true);
+            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhr.send(`email=${dataObj.email}&password=${dataObj.password}`);
+        })
 
         document.getElementById('callxhr').addEventListener('click', () => {
             var oReq = new XMLHttpRequest();
