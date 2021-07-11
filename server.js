@@ -78,7 +78,7 @@ const passportSocketIoMiddleware = passportSocketIo.authorize({
     store: sessionStore
 })
 
-// ioServer.use(passportSocketIoMiddleware);
+ioServer.use(passportSocketIoMiddleware);
 ioServer.of('/swiper').use(passportSocketIoMiddleware); //serve socket request user in namespace
 createSocketServices(ioServer);
 

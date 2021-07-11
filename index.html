@@ -15,14 +15,32 @@
             login
         </button>
     </form>
-    <br/><br/>
+    <br /><br />
     <button id="send">Send</button>
-    <br/><br/>
+    <button id="callxhr">Call Xhr</button>
+    <br /><br />
     <button id="getSwiperData">GET Swiper Data</button>
     <script>
         var socket = io('http://localhost:5000/swiper', {
             path: '/socket'
         });
+
+        function reqListener(res) {
+            console.log(this.responseText);
+            console.log("res=>", res)
+        }
+
+
+        document.getElementById('callxhr').addEventListener('click', () => {
+            var oReq = new XMLHttpRequest();
+            oReq.addEventListener("load", reqListener);
+            oReq.open("GET", "http://localhost:5000/api/user");
+            oReq.setRequestHeader('withCredentials', true)
+            oReq.setRequestHeader('credentials', 'include')
+            oReq.send();
+        })
+
+
 
 
         socket.on('connect', function () {
@@ -31,7 +49,7 @@
             });
             socket.on('disconnect', function () { });
         });
-        
+
         document.getElementById('getSwiperData').addEventListener('click', () => {
             socket.emit('sendReqForNewSwiperList');
         })
