@@ -21,7 +21,9 @@
     <br /><br />
     <button id="getSwiperData">GET Swiper Data</button>
     <script>
-        var socket = io(`${window.location.host}/swiper`, {
+
+        var host = window.location.host
+        var socket = io(`${host}/swiper`, {
             path: '/socket'
         });
 
@@ -34,7 +36,7 @@
         document.getElementById('callxhr').addEventListener('click', () => {
             var oReq = new XMLHttpRequest();
             oReq.addEventListener("load", reqListener);
-            oReq.open("GET", "http://localhost:5000/api/user");
+            oReq.open("GET", `${host}/api/user`);
             oReq.setRequestHeader('withCredentials', true)
             oReq.setRequestHeader('credentials', 'include')
             oReq.send();
